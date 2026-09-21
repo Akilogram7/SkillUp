@@ -1,3 +1,9 @@
+//the tsx file extenstion allows for typescript and JSX (hmtl-like syntax) 
+// Vite is a tool that helps with developing and building the application
+//Vite starts a development sever on my computer which allows me to see the application on firefox using http://localhost:5173/
+//Vite also builds the finished website once its done 
+//npm is the package manager that comes with Node.js and it handles the packages our project depends on
+
 import Navbar from "./components/Navbar"
 import SkillCard from "./components/SkillCard"
 import JobAnalyzer from "./components/JobAnalyser"

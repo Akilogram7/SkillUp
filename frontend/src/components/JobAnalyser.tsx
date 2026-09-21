@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-//Creates state
+//Creates state - React component 
 function JobAnalyzer() {
   const [jobDescription, setJobDescription] = useState("")
 
