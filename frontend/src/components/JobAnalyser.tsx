@@ -1,20 +1,40 @@
 import { useState } from "react"
 
-
-//Creates state - React component 
-function JobAnalyzer() {
+function JobAnalyser() {
   const [jobDescription, setJobDescription] = useState("")
+  const [result, setResult] = useState("")
 
+  //async means perfom a function that will take some time as it needs to connect to two servers
+  async function handleAnalyze() {
+    try {
+      //allows javascript to make an HTTP request
+      const response = await fetch("http://127.0.0.1:8000/analyze", {
+        //use the fastapi endpoint POST
+        method: "POST",
 
-//Prints to the console (inspect and look at console)
-  function handleAnalyze() {
-    console.log(jobDescription)
+        headers: {
+          "Content-Type": "application/json",
+        },
+        //take the js object and convert into JSON
+        body: JSON.stringify({
+          description: jobDescription,
+        }),
+      })
+
+      //fastapi recieves everything and then goes through to check if the input is valid 
+      const data = await response.json()
+
+      setResult(data.message)
+    } catch (error) {
+      console.error("Error analyzing job:", error)
+    }
   }
 
   return (
     <section className="job-analyzer">
       <div className="section-header">
         <h2>Analyze a Job</h2>
+
         <p>
           Paste a job posting to see how your skills compare to its
           requirements.
@@ -34,8 +54,15 @@ function JobAnalyzer() {
       >
         Analyze Job
       </button>
+
+      {result && (
+        <div>
+          <h3>Analysis Result</h3>
+          <p>{result}</p>
+        </div>
+      )}
     </section>
   )
 }
 
-export default JobAnalyzer
+export default JobAnalyser
