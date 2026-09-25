@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import re
 
 #creats backend application
 app = FastAPI()
@@ -22,6 +23,27 @@ app.add_middleware(
 class JobDescription(BaseModel):
     description: str
 
+lst_skills = ["Python", 
+              "Java",
+              "C++",
+              "JavaScript",
+              "TypeScript",
+              "React",
+              "SQL",
+              "PostgreSQL",
+              "Git",
+              "Docker",
+              "AWS",
+              "Azure",]
+
+
+def extract_skills(description):
+    found_skills = []
+    for skill in lst_skills: 
+        if re.search(fr"\b{skill}\b",description,re.IGNORECASE):   #(skill.lower() in description.lower()):
+            found_skills.append(skill)
+    return found_skills
+    
 
 #creates an API endpoint
 @app.get("/")
@@ -32,6 +54,7 @@ def root():
 
 def analyze_job(job: JobDescription):
     return {
-        "message": "Job Recieved Successfully",
-        "description": job.description
+        "message": "Job Received Successfully",
+        "skills": extract_skills(job.description)
     }
+

@@ -2,7 +2,7 @@ import { useState } from "react"
 
 function JobAnalyser() {
   const [jobDescription, setJobDescription] = useState("")
-  const [result, setResult] = useState("")
+  const [result, setResult] = useState<string[]>([])
 
   //async means perfom a function that will take some time as it needs to connect to two servers
   async function handleAnalyze() {
@@ -24,7 +24,7 @@ function JobAnalyser() {
       //fastapi recieves everything and then goes through to check if the input is valid 
       const data = await response.json()
 
-      setResult(data.message)
+      setResult(data.skills)
     } catch (error) {
       console.error("Error analyzing job:", error)
     }
@@ -55,10 +55,13 @@ function JobAnalyser() {
         Analyze Job
       </button>
 
-      {result && (
+      {result.length > 0 && (
         <div>
           <h3>Analysis Result</h3>
-          <p>{result}</p>
+          {/* <p>{result}</p> */}
+          {result.map((skill) => (
+              <p key={skill}>{skill}</p>
+          ))} 
         </div>
       )}
     </section>
