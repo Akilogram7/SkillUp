@@ -36,6 +36,11 @@ lst_skills = ["Python",
               "AWS",
               "Azure",]
 
+user_skills = ["Python",
+               "C++",
+               "JavaScript"]
+
+
 
 def extract_skills(description):
     found_skills = []
@@ -43,7 +48,19 @@ def extract_skills(description):
         if re.search(fr"\b{skill}\b",description,re.IGNORECASE):   #(skill.lower() in description.lower()):
             found_skills.append(skill)
     return found_skills
-    
+
+def compare_skills(found_skills):
+    matched_skills = []
+    missing_skills = []
+    for skill in found_skills: 
+        if skill in user_skills: 
+            matched_skills.append(skill)
+        else: 
+            missing_skills.append(skill)
+            
+    return matched_skills, missing_skills
+
+
 
 #creates an API endpoint
 @app.get("/")
@@ -51,10 +68,13 @@ def root():
     return {"message": "SkillUp API is running"}
 
 @app.post("/analyze")
-
 def analyze_job(job: JobDescription):
+    job_skills = extract_skills(job.description)
+    matched_skills, missing_skills = compare_skills(job_skills)
     return {
         "message": "Job Received Successfully",
-        "skills": extract_skills(job.description)
+        "skills": job_skills,
+        "matched_skills": matched_skills, 
+        "missing_skills": missing_skills,
     }
 

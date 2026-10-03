@@ -2,7 +2,9 @@ import { useState } from "react"
 
 function JobAnalyser() {
   const [jobDescription, setJobDescription] = useState("")
-  const [result, setResult] = useState<string[]>([])
+  const [requiredSkills, setResult] = useState<string[]>([])
+  const [matched, setMatched] = useState<string[]>([])
+  const [missing, setMissing] = useState<string[]>([])
 
   //async means perfom a function that will take some time as it needs to connect to two servers
   async function handleAnalyze() {
@@ -23,8 +25,12 @@ function JobAnalyser() {
 
       //fastapi recieves everything and then goes through to check if the input is valid 
       const data = await response.json()
+    
 
       setResult(data.skills)
+      setMatched(data.matched_skills)
+      setMissing(data.missing_skills)
+
     } catch (error) {
       console.error("Error analyzing job:", error)
     }
@@ -55,15 +61,27 @@ function JobAnalyser() {
         Analyze Job
       </button>
 
-      {result.length > 0 && (
+      {requiredSkills.length > 0 && ( //conditional rendering
         <div>
           <h3>Analysis Result</h3>
-          {/* <p>{result}</p> */}
-          {result.map((skill) => (
+          <h4>Required Skills</h4>
+          {requiredSkills.map((skill) => (
               <p key={skill}>{skill}</p>
           ))} 
+
+          <h4>Skills You Have</h4>
+          {matched.map((skill) => (
+            <p key={skill}>{skill}</p>
+          ))}
+
+          <h4>Skills To Learn</h4>
+          {missing.map((skill) => (
+            <p key={skill}>{skill}</p>
+          ))}
+
         </div>
       )}
+
     </section>
   )
 }
