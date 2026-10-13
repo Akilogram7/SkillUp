@@ -1,7 +1,7 @@
 function Navbar() {
   return (
     <nav>
-      <h1>SkillUp</h1>
+      <h1>SkillUp</h1>  
 
       <div>
         <button>Dashboard</button>

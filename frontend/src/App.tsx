@@ -22,8 +22,8 @@ function App() {
       <Navbar />
 
       <main>
-        <h2>Welcome to SkillUp 🚀</h2>
-        <p>The Skill and Goal Tracker</p>
+        <h2>Welcome to SkillUp</h2>
+        <p>The Skill and Goal Tracker - Created by Akeell Parameswaran </p>
 
         <section>
           <h2>Your Skills</h2>
